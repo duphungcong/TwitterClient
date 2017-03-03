@@ -7,7 +7,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import org.scribe.builder.api.Api;
-import org.scribe.builder.api.FlickrApi;
+import org.scribe.builder.api.TwitterApi;
 
 /*
  * 
@@ -22,11 +22,12 @@ import org.scribe.builder.api.FlickrApi;
  * 
  */
 public class RestClient extends OAuthBaseClient {
-	public static final Class<? extends Api> REST_API_CLASS = FlickrApi.class; // Change this
-	public static final String REST_URL = "https://api.flickr.com/services"; // Change this, base API URL
-	public static final String REST_CONSUMER_KEY = "SOME_KEY";       // Change this
-	public static final String REST_CONSUMER_SECRET = "SOME_SECRET"; // Change this
-	public static final String REST_CALLBACK_URL = "oauth://cprest"; // Change this (here and in manifest)
+	public static final Class<? extends Api> REST_API_CLASS = TwitterApi.class;
+	public static final String REST_URL = "https://api.twitter.com/1.1";
+	public static final String REST_CONSUMER_KEY = "rkXqdg1DcmzlwxASjw8EEyuCg";
+	public static final String REST_CONSUMER_SECRET = "Un1Y7vd48ECXMGQkGDcVtql8rajV8YyOinpdsg2n0mgue3BAEW";
+	// Change here and AndroidManifest.xml
+	public static final String REST_CALLBACK_URL = "x-oauthflow-twitter://arbitraryname.com";
 
 	public RestClient(Context context) {
 		super(context, REST_API_CLASS, REST_URL, REST_CONSUMER_KEY, REST_CONSUMER_SECRET, REST_CALLBACK_URL);

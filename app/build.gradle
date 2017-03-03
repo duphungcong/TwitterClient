@@ -28,6 +28,8 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:25.2.0'
     testCompile 'junit:junit:4.12'
+    // RecyclerView support
+    compile 'com.android.support:recyclerview-v7:25.2.0'
     // Picasso for remote image loading
     compile 'com.squareup.picasso:picasso:2.5.2'
     // Android Async Http for sending async network requests

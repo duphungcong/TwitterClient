@@ -24,10 +24,11 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="cprest"
-                    android:scheme="oauth" />
+                    android:host="arbitraryname.com"
+                    android:scheme="x-oauthflow-twitter" />
             </intent-filter>
         </activity>
+        <activity android:name=".TimelineActivity"></activity>
     </application>
 
 </manifest>
