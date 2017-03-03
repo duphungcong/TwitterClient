@@ -8,9 +8,14 @@ import android.support.v7.widget.RecyclerView;
 
 import com.duphungcong.twitterclient.adapters.TweetsAdapter;
 import com.duphungcong.twitterclient.models.Tweet;
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by udcun on 3/3/2017.
@@ -27,6 +32,19 @@ public class TimelineActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
 
+        onBindView();
+
+        TwitterClient client = TwitterApplication.getRestClient();
+        client.getHomeTimeline(0, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                super.onSuccess(statusCode, headers, response);
+                System.out.println(response);
+            }
+        });
+    }
+
+    public void onBindView() {
         rvTweets = (RecyclerView) findViewById(R.id.rvTweets);
 
         tweets = new ArrayList<>();
