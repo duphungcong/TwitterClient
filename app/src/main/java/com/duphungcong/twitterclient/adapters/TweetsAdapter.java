@@ -39,12 +39,12 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
     public void onBindViewHolder(ViewHolder holder, int position) {
         Tweet tweet = mTweets.get(position);
 
-        holder.tvName.setText(tweet.getName());
-        holder.tvUsername.setText(tweet.getUsername());
-        holder.tvBody.setText(tweet.getBody());
+        holder.tvName.setText(tweet.getmUser().getName());
+        holder.tvUsername.setText("@" + tweet.getmUser().getScreenName());
+        holder.tvBody.setText(tweet.getmText());
 
         Picasso.with(mContext)
-                .load(tweet.getAvatarUrl())
+                .load(tweet.getmUser().getProfileImageUrl())
                 .fit()
                 .placeholder(R.drawable.image_loading)
                 .into(holder.ivAvatar);

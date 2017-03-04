@@ -1,58 +1,82 @@
 package com.duphungcong.twitterclient.models;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
 /**
  * Created by udcun on 3/3/2017.
  */
 
 public class Tweet {
-    private String avatarUrl;
-    private String name;
-    private String username;
-    private String body;
+    private User mUser;
+    private String mText;
 
-    public Tweet(String avatarUrl, String name, String username, String body) {
-        this.avatarUrl = avatarUrl;
-        this.name = name;
-        this.username = username;
-        this.body = body;
+    public static Tweet fromJson(JSONObject object) {
+        Tweet tweet = new Tweet();
+
+        try {
+            tweet.mText = object.getString("text");
+            tweet.mUser = User.fromJson(object.getJSONObject("user"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return tweet;
     }
 
-    public Tweet() {
-        this.avatarUrl = "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQEW70_fdFz4oKi5Fb9pCSOWAH7YreISn9QToz8KMaZIREC4t6Vbk3sJ6U";
-        this.name = "duphungcong";
-        this.username = "@udcun";
-        this.body = "Lorem Ipsum is simply dummy text of the printing and typesetting industry";
+    public static ArrayList<Tweet> fromJson(JSONArray array) {
+        JSONObject tweetJson;
+        JSONObject retweetJson;
+        ArrayList<Tweet> tweets = new ArrayList<>();
+
+        for (int i = 0; i < array.length(); i++) {
+            try {
+                tweetJson = array.getJSONObject(i);
+            } catch (JSONException e) {
+                e.printStackTrace();
+                continue;
+            }
+
+            try {
+                retweetJson = tweetJson.getJSONObject("retweeted_status");
+            } catch (JSONException e) {
+                e.printStackTrace();
+
+                Tweet tweet = Tweet.fromJson(tweetJson);
+                if (tweet != null) {
+                    tweets.add(tweet);
+                }
+
+                continue;
+            }
+
+
+            Tweet retweet = Tweet.fromJson(retweetJson);
+            if (retweet != null) {
+                tweets.add(retweet);
+            }
+        }
+
+        return tweets;
     }
 
-    public String getAvatarUrl() {
-        return avatarUrl;
+    public User getmUser() {
+        return mUser;
     }
 
-    public void setAvatarUrl(String avatarUrl) {
-        this.avatarUrl = avatarUrl;
+    public void setmUser(User mUser) {
+        this.mUser = mUser;
     }
 
-    public String getName() {
-        return name;
+    public String getmText() {
+        return mText;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getBody() {
-        return body;
-    }
-
-    public void setBody(String body) {
-        this.body = body;
+    public void setmText(String mText) {
+        this.mText = mText;
     }
 }

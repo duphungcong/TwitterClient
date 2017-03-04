@@ -32,28 +32,28 @@ public class TimelineActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
 
-        onBindView();
-
-        TwitterClient client = TwitterApplication.getRestClient();
-        client.getHomeTimeline(0, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                super.onSuccess(statusCode, headers, response);
-                System.out.println(response);
-            }
-        });
-    }
-
-    public void onBindView() {
         rvTweets = (RecyclerView) findViewById(R.id.rvTweets);
-
         tweets = new ArrayList<>();
-        for (int i = 1; i < 100; i++) {
-            tweets.add(new Tweet());
-        }
 
         adapter = new TweetsAdapter(this, tweets);
         rvTweets.setAdapter(adapter);
         rvTweets.setLayoutManager(new LinearLayoutManager(this));
+
+        TwitterClient client = TwitterApplication.getRestClient();
+        client.getHomeTimeline(5, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                super.onSuccess(statusCode, headers, response);
+                tweets.addAll(Tweet.fromJson(response));
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+                System.out.println(responseString);
+            }
+        });
+
     }
 }
