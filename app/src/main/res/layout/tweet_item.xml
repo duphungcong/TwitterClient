@@ -28,11 +28,17 @@
         android:layout_alignParentTop="true"
         android:text="username"/>
     <TextView
-        android:id="@+id/tvBody"
+        android:id="@+id/tvCreatedAt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/ivAvatar"
         android:layout_below="@+id/tvName"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="@dimen/item_margin"/>
+        android:text="5 day ago"/>
+    <TextView
+        android:id="@+id/tvBody"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/ivAvatar"
+        android:layout_below="@+id/tvCreatedAt"
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>

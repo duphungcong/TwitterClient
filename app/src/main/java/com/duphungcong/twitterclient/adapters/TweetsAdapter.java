@@ -41,6 +41,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
 
         holder.tvName.setText(tweet.getmUser().getName());
         holder.tvUsername.setText("@" + tweet.getmUser().getScreenName());
+        holder.tvCreatedAt.setText(tweet.getmCreatedAt());
         holder.tvBody.setText(tweet.getmText());
 
         Picasso.with(mContext)
@@ -63,6 +64,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         public ImageView ivAvatar;
         public TextView tvName;
         public TextView tvUsername;
+        public TextView tvCreatedAt;
         public TextView tvBody;
 
         public ViewHolder(View itemView) {
@@ -71,6 +73,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             ivAvatar = (ImageView) itemView.findViewById(R.id.ivAvatar);
             tvName = (TextView) itemView.findViewById(R.id.tvName);
             tvUsername = (TextView) itemView.findViewById(R.id.tvUsername);
+            tvCreatedAt = (TextView) itemView.findViewById(R.id.tvCreatedAt);
             tvBody = (TextView) itemView.findViewById(R.id.tvBody);
         }
     }
