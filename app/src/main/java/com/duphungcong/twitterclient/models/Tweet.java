@@ -16,6 +16,7 @@ import java.util.Locale;
  */
 
 public class Tweet {
+    private String mId;
     private User mUser;
     private String mText;
     private String mCreatedAt;
@@ -24,6 +25,7 @@ public class Tweet {
         Tweet tweet = new Tweet();
 
         try {
+            tweet.mId = object.getString("id_str");
             tweet.mText = object.getString("text");
             tweet.mCreatedAt = Tweet.getRelativeTimeAgo(object.getString("created_at"));
             tweet.mUser = User.fromJson(object.getJSONObject("user"));
@@ -112,5 +114,13 @@ public class Tweet {
         }
 
         return relativeDate;
+    }
+
+    public String getmId() {
+        return mId;
+    }
+
+    public long getmIdLong() {
+        return Long.parseLong(mId);
     }
 }
