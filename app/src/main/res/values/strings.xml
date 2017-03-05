@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">TwitterClient</string>
+    <string name="app_name">Twitter</string>
+    <string name="compose_title">Compose</string>
 </resources>

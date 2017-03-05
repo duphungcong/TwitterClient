@@ -49,6 +49,7 @@ public class TimelineActivity extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.mainToolbar);
         setSupportActionBar(toolbar);
+        toolbar.setTitle(R.string.app_name);
 
         rvTweets = (RecyclerView) findViewById(R.id.rvTweets);
         tweets = new ArrayList<>();

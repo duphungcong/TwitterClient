@@ -40,5 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/ivAvatar"
         android:layout_below="@+id/tvCreatedAt"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:autoLink="all"
+        android:textColorLink="@color/textColorLink" />
 </RelativeLayout>

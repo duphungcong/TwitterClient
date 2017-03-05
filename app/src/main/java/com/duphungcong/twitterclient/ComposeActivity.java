@@ -31,7 +31,7 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acitvity_compose);
         toolbar = (Toolbar) findViewById(R.id.mainToolbar);
-        toolbar.setTitle("Compose New Tweet");
+        toolbar.setTitle(R.string.compose_title);
         setSupportActionBar(toolbar);
 
         bindView();
