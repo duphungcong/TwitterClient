@@ -1,14 +1,20 @@
 package com.duphungcong.twitterclient;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.duphungcong.twitterclient.adapters.TweetsAdapter;
 import com.duphungcong.twitterclient.models.Tweet;
+import com.duphungcong.twitterclient.models.User;
 import com.duphungcong.twitterclient.ultis.ArrayListUlti;
 import com.duphungcong.twitterclient.ultis.EndlessRecyclerViewScrollListener;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -27,17 +33,22 @@ import cz.msebera.android.httpclient.Header;
 
 public class TimelineActivity extends AppCompatActivity {
 
+    private Toolbar toolbar;
     private RecyclerView rvTweets;
     private TweetsAdapter adapter;
     private List<Tweet> tweets;
 
     private EndlessRecyclerViewScrollListener scrollListener;
     private String maxId;
+    private User currentUser;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
+
+        toolbar = (Toolbar) findViewById(R.id.mainToolbar);
+        setSupportActionBar(toolbar);
 
         rvTweets = (RecyclerView) findViewById(R.id.rvTweets);
         tweets = new ArrayList<>();
@@ -47,7 +58,6 @@ public class TimelineActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         rvTweets.setLayoutManager(layoutManager);
 
-        //fetchTweets("836278419038011393");
         fetchTweets();
 
         // Listen scroll with infinite pagination
@@ -59,6 +69,8 @@ public class TimelineActivity extends AppCompatActivity {
         };
 
         rvTweets.addOnScrollListener(scrollListener);
+
+        getCurrentUser();
     }
 
     public void fetchTweets() {
@@ -81,5 +93,66 @@ public class TimelineActivity extends AppCompatActivity {
                 Toast.makeText(TimelineActivity.this, errorResponse.toString(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.actionCompose:
+                if (currentUser!= null) {
+                    Intent intent = new Intent(TimelineActivity.this, ComposeActivity.class);
+                    intent.putExtra("currentUser", currentUser);
+                    startActivity(intent);
+                }
+                return true;
+            case R.id.actionRefresh :
+                refreshTimeline();
+                return true;
+            case R.id.actionLogout :
+                TwitterClient client = TwitterApplication.getRestClient();
+                client.clearAccessToken();
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        refreshTimeline();
+    }
+
+    public void getCurrentUser() {
+        TwitterClient client = TwitterApplication.getRestClient();
+        client.getVerifyCredentials(new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                currentUser = User.fromJson(response);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+            }
+        });
+    }
+
+    public void refreshTimeline() {
+        maxId = null;
+        tweets.clear();
+        adapter.notifyDataSetChanged();
+        fetchTweets();
     }
 }

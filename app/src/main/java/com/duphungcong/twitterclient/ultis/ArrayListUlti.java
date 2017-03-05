@@ -10,7 +10,12 @@ import java.util.ArrayList;
 
 public class ArrayListUlti {
     public static String getLastItemId(ArrayList<Tweet> array) {
-        int lastIndex = array.size() - 1;
-        return array.get(lastIndex).getmId();
+        String id = null;
+        if (array != null && array.size() != 0) {
+            int lastIndex = array.size() - 1;
+            Tweet tweet = array.get(lastIndex);
+            id = tweet.getmId();
+        }
+        return id;
     }
 }

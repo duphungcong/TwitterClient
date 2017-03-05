@@ -3,11 +3,13 @@ package com.duphungcong.twitterclient.models;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
+
 /**
  * Created by udcun on 3/3/2017.
  */
 
-public class User {
+public class User implements Serializable {
     private String name;
     private String screenName;
     private String profileImageUrl;

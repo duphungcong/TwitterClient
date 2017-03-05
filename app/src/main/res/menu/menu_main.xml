@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/actionRefresh"
+        android:orderInCategory="1"
+        android:title="Refresh"
+        android:icon="@drawable/ic_refresh_64x64"
+        app:showAsAction="ifRoom|collapseActionView" />
+    <item
+        android:id="@+id/actionCompose"
+        android:orderInCategory="2"
+        android:title="Compose"
+        android:icon="@drawable/ic_compose_64x64"
+        app:showAsAction="ifRoom|collapseActionView"/>
+    <item
+        android:id="@+id/actionLogout"
+        android:orderInCategory="99"
+        android:title="Logout"
+        android:icon="@drawable/ic_user_64x64"
+        app:showAsAction="collapseActionView" />
+
+</menu>
