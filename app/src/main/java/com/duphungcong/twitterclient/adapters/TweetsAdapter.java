@@ -14,6 +14,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
+
 /**
  * Created by udcun on 3/3/2017.
  */
@@ -46,6 +48,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
 
         Picasso.with(mContext)
                 .load(tweet.getmUser().getProfileImageUrl())
+                .transform(new RoundedCornersTransformation(10, 3))
                 .fit()
                 .placeholder(R.drawable.image_loading)
                 .into(holder.ivAvatar);

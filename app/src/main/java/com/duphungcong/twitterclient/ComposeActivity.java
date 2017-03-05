@@ -16,6 +16,7 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
+import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 
 public class ComposeActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -55,6 +56,7 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
         tvScreenName.setText("@" + currentUser.getScreenName());
         Picasso.with(this)
                 .load(currentUser.getProfileImageUrl())
+                .transform(new RoundedCornersTransformation(10, 3))
                 .fit()
                 .placeholder(R.drawable.image_loading)
                 .into(ivAvatar);
