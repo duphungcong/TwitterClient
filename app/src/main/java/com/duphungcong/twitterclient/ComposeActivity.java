@@ -23,13 +23,6 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
     private Toolbar toolbar;
     private AcitvityComposeBinding binding;
     private int remainCharacter = 140;
-    private TweetCommitListerner tweetCommitListerner;
-
-    // Defines the listener interface to trigger event when com back TimelineActivity
-    public interface TweetCommitListerner {
-        void onCommit();
-    }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
