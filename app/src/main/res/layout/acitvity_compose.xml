@@ -11,17 +11,7 @@
         android:layout_height="match_parent"
         tools:context=".ComposeActivity">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/mainToolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:elevation="4dp"
-            android:theme="@style/ToolbarTheme"
-            app:titleTextAppearance="@style/ToolbarTitle" />
+        <include layout="@layout/main_toolbar" />
 
         <Button
             android:id="@+id/btnCancel"

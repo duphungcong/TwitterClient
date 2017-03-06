@@ -52,4 +52,7 @@ dependencies {
     // Codepath OAuth handler
     compile 'com.codepath.libraries:android-oauth-handler:1.1.0'
 
+    // Swipe to refresh
+    compile 'com.android.support:support-v4:25.2.0'
+
 }

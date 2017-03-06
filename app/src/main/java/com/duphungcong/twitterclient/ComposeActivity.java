@@ -2,6 +2,7 @@ package com.duphungcong.twitterclient;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -22,6 +23,14 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
     private Toolbar toolbar;
     private AcitvityComposeBinding binding;
     private int remainCharacter = 140;
+    private TweetCommitListerner tweetCommitListerner;
+
+    // Defines the listener interface to trigger event when com back TimelineActivity
+    public interface TweetCommitListerner {
+        void onCommit();
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +62,7 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.btnSubmit :
                 if (remainCharacter >= 0) {
                     submitTweet(binding.etStatus.getText().toString());
+                    setResult(RESULT_OK);
                     finish();
                 } else {
                     Toast.makeText(v.getContext(), "Exceed number of words allowed", Toast.LENGTH_SHORT).show();
@@ -95,6 +105,9 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
         @Override
         public void afterTextChanged(Editable s) {
             remainCharacter = 140 - s.length();
+            if (remainCharacter <0) {
+                binding.tvRemainCharacter.setTextColor(ContextCompat.getColor(ComposeActivity.this, R.color.colorAccent));
+            }
             binding.tvRemainCharacter.setText(Integer.toString(remainCharacter));
         }
     };

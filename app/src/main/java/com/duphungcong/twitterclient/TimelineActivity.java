@@ -3,6 +3,7 @@ package com.duphungcong.twitterclient;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -39,8 +40,11 @@ public class TimelineActivity extends AppCompatActivity {
     private List<Tweet> tweets;
 
     private EndlessRecyclerViewScrollListener scrollListener;
+    private SwipeRefreshLayout swipeContainer;
     private String maxId;
     private User currentUser;
+
+    private final int REQUEST_CODE = 99;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,6 +76,11 @@ public class TimelineActivity extends AppCompatActivity {
         rvTweets.addOnScrollListener(scrollListener);
 
         getCurrentUser();
+
+        // Lookup the swipe container view
+        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+        swipeContainer.setOnRefreshListener(onRefreshListener);
+        swipeContainer.setColorSchemeResources(R.color.colorAccent);
     }
 
     public void fetchTweets() {
@@ -112,7 +121,7 @@ public class TimelineActivity extends AppCompatActivity {
                 if (currentUser!= null) {
                     Intent intent = new Intent(TimelineActivity.this, ComposeActivity.class);
                     intent.putExtra("currentUser", currentUser);
-                    startActivity(intent);
+                    startActivityForResult(intent, REQUEST_CODE);
                 }
                 return true;
             case R.id.actionRefresh :
@@ -129,9 +138,11 @@ public class TimelineActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
-        refreshTimeline();
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
+            refreshTimeline();
+        }
     }
 
     public void getCurrentUser() {
@@ -155,5 +166,13 @@ public class TimelineActivity extends AppCompatActivity {
         tweets.clear();
         adapter.notifyDataSetChanged();
         fetchTweets();
+        swipeContainer.setRefreshing(false);
     }
+
+    private final SwipeRefreshLayout.OnRefreshListener onRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
+        @Override
+        public void onRefresh() {
+            refreshTimeline();
+        }
+    };
 }
