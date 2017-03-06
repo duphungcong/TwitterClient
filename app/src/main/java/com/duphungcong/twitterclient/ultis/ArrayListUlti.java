@@ -14,7 +14,7 @@ public class ArrayListUlti {
         if (array != null && array.size() != 0) {
             int lastIndex = array.size() - 1;
             Tweet tweet = array.get(lastIndex);
-            id = tweet.getmId();
+            id = tweet.getId();
         }
         return id;
     }

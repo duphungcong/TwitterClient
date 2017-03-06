@@ -16,19 +16,19 @@ import java.util.Locale;
  */
 
 public class Tweet {
-    private String mId;
-    private User mUser;
-    private String mText;
-    private String mCreatedAt;
+    private String id;
+    private User user;
+    private String text;
+    private String createdAt;
 
     public static Tweet fromJson(JSONObject object) {
         Tweet tweet = new Tweet();
 
         try {
-            tweet.mId = object.getString("id_str");
-            tweet.mText = object.getString("text");
-            tweet.mCreatedAt = Tweet.getRelativeTimeAgo(object.getString("created_at"));
-            tweet.mUser = User.fromJson(object.getJSONObject("user"));
+            tweet.id = object.getString("id_str");
+            tweet.text = object.getString("text");
+            tweet.createdAt = Tweet.getRelativeTimeAgo(object.getString("created_at"));
+            tweet.user = User.fromJson(object.getJSONObject("user"));
         } catch (JSONException e) {
             e.printStackTrace();
             return null;
@@ -73,28 +73,28 @@ public class Tweet {
         return tweets;
     }
 
-    public User getmUser() {
-        return mUser;
+    public User getUser() {
+        return user;
     }
 
-    public void setmUser(User mUser) {
-        this.mUser = mUser;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public String getmText() {
-        return mText;
+    public String getText() {
+        return text;
     }
 
-    public void setmText(String mText) {
-        this.mText = mText;
+    public void setText(String text) {
+        this.text = text;
     }
 
-    public String getmCreatedAt() {
-        return mCreatedAt;
+    public String getCreatedAt() {
+        return createdAt;
     }
 
-    public void setmCreatedAt(String mCreatedAt) {
-        this.mCreatedAt = mCreatedAt;
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
 
     // getRelativeTimeAgo("Mon Apr 01 21:16:23 +0000 2014");
@@ -116,11 +116,7 @@ public class Tweet {
         return relativeDate;
     }
 
-    public String getmId() {
-        return mId;
-    }
-
-    public long getmIdLong() {
-        return Long.parseLong(mId);
+    public String getId() {
+        return id;
     }
 }

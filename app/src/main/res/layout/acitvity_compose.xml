@@ -1,58 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <include layout="@layout/main_toolbar" />
-
-    <Button
-        android:id="@+id/btnCancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/mainToolbar"
-        android:text="Cancel"/>
-    <ImageView
-        android:id="@+id/ivAvatar"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_alignTop="@+id/btnCancel"
-        android:layout_alignParentRight="true"
-        android:layout_margin="@dimen/item_margin"
-        android:src="@drawable/image_loading"/>
-    <TextView
-        android:id="@+id/tvName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/btnCancel"
-        android:layout_toLeftOf="@+id/ivAvatar"
-        android:text="Name"/>
-    <TextView
-        android:id="@+id/tvScreenName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvName"
-        android:layout_toLeftOf="@+id/ivAvatar"
-        android:text="/@Screen Name"/>
-    <EditText
-        android:id="@+id/etStatus"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="user"
+            type="com.duphungcong.twitterclient.models.User" />
+    </data>
+    <RelativeLayout  xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/ivAvatar"
-        android:hint="What's happening"/>
-    <Button
-        android:id="@+id/btnSubmit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:text="TWEET"/>
-    <TextView
-        android:id="@+id/tvRemainCharacter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/btnSubmit"
-        android:layout_alignBaseline="@+id/btnSubmit"
-        android:text="140"/>
-</RelativeLayout>
+        android:layout_height="match_parent"
+        tools:context=".ComposeActivity">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/mainToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:elevation="4dp"
+            android:theme="@style/ToolbarTheme"
+            app:titleTextAppearance="@style/ToolbarTitle" />
+
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/mainToolbar"
+            android:text="Cancel"/>
+        <ImageView
+            android:id="@+id/ivAvatar"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_alignTop="@+id/btnCancel"
+            android:layout_alignParentRight="true"
+            android:layout_margin="@dimen/item_margin"
+            android:src="@drawable/image_loading"
+            app:imageUrl="@{user.profileImageUrl}"/>
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/btnCancel"
+            android:layout_toLeftOf="@+id/ivAvatar"
+            android:text="@{user.name}"/>
+        <TextView
+            android:id="@+id/tvScreenName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvName"
+            android:layout_toLeftOf="@+id/ivAvatar"
+            android:text='@{"@" + user.screenName}'/>
+        <EditText
+            android:id="@+id/etStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ivAvatar"
+            android:hint="What's happening"/>
+        <Button
+            android:id="@+id/btnSubmit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:text="TWEET"
+            android:background="@color/colorPrimary"
+            android:layout_margin="@dimen/item_margin"
+            android:textColor="@android:color/white"/>
+        <TextView
+            android:id="@+id/tvRemainCharacter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/btnSubmit"
+            android:layout_alignBaseline="@+id/btnSubmit"
+            android:layout_marginRight="@dimen/item_margin"
+            android:text="140"/>
+    </RelativeLayout>
+</layout>

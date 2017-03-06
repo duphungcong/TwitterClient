@@ -1,65 +1,47 @@
 package com.duphungcong.twitterclient;
 
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.Toast;
 
+import com.duphungcong.twitterclient.databinding.AcitvityComposeBinding;
 import com.duphungcong.twitterclient.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
-import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 
 public class ComposeActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Toolbar toolbar;
-    private TextView tvName, tvScreenName, tvRemainCharacter;
-    private ImageView ivAvatar;
-    private EditText etStatus;
-    private Button btnCancel, btnSubmit;
-
+    private AcitvityComposeBinding binding;
+    private int remainCharacter = 140;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.acitvity_compose);
+        binding = DataBindingUtil.setContentView(this, R.layout.acitvity_compose);
         toolbar = (Toolbar) findViewById(R.id.mainToolbar);
         toolbar.setTitle(R.string.compose_title);
         setSupportActionBar(toolbar);
 
         bindView();
 
+        binding.etStatus.addTextChangedListener(statusWatcher);
+
     }
 
     public void bindView() {
         User currentUser = (User) getIntent().getSerializableExtra("currentUser");
 
-        tvName = (TextView) findViewById(R.id.tvName);
-        tvScreenName = (TextView) findViewById(R.id.tvScreenName);
-        tvRemainCharacter = (TextView) findViewById(R.id.tvRemainCharacter);
-        etStatus = (EditText) findViewById(R.id.etStatus);
-        ivAvatar = (ImageView) findViewById(R.id.ivAvatar);
-
-        btnCancel = (Button) findViewById(R.id.btnCancel);
-        btnCancel.setOnClickListener(this);
-        btnSubmit = (Button) findViewById(R.id.btnSubmit);
-        btnSubmit.setOnClickListener(this);
-
-        tvName.setText(currentUser.getName());
-        tvScreenName.setText("@" + currentUser.getScreenName());
-        Picasso.with(this)
-                .load(currentUser.getProfileImageUrl())
-                .transform(new RoundedCornersTransformation(10, 3))
-                .fit()
-                .placeholder(R.drawable.image_loading)
-                .into(ivAvatar);
+        binding.setUser(currentUser);
+        binding.btnCancel.setOnClickListener(this);
+        binding.btnSubmit.setOnClickListener(this);
     }
 
     @Override
@@ -69,8 +51,12 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
                 finish();
                 return;
             case R.id.btnSubmit :
-                submitTweet(etStatus.getText().toString());
-                finish();
+                if (remainCharacter >= 0) {
+                    submitTweet(binding.etStatus.getText().toString());
+                    finish();
+                } else {
+                    Toast.makeText(v.getContext(), "Exceed number of words allowed", Toast.LENGTH_SHORT).show();
+                }
                 return;
             default:
                 return;
@@ -94,4 +80,22 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
             }
         });
     }
+
+    private final TextWatcher statusWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            remainCharacter = 140 - s.length();
+            binding.tvRemainCharacter.setText(Integer.toString(remainCharacter));
+        }
+    };
 }

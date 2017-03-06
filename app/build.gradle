@@ -17,7 +17,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    dataBinding.enabled = true
+    dataBinding {
+        enabled = true
+    }
 }
 
 def dbflow_version = "4.0.0-beta5"
