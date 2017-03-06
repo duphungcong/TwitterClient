@@ -20,6 +20,7 @@ public class Tweet {
     private User user;
     private String text;
     private String createdAt;
+    private ArrayList<Media> medias;
 
     public static Tweet fromJson(JSONObject object) {
         Tweet tweet = new Tweet();
@@ -32,6 +33,13 @@ public class Tweet {
         } catch (JSONException e) {
             e.printStackTrace();
             return null;
+        }
+
+        try {
+            tweet.medias = Media.fromJson(object.getJSONObject("entities").getJSONArray("media"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+            tweet.medias = null;
         }
 
         return tweet;
