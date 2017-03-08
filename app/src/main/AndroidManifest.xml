@@ -29,7 +29,6 @@
                     android:scheme="x-oauthflow-twitter" />
             </intent-filter>
         </activity>
-        <activity android:name=".TimelineActivity"></activity>
         <activity android:name=".ComposeActivity"></activity>
         <activity android:name=".MainActivity"></activity>
     </application>
