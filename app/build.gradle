@@ -22,19 +22,24 @@ android {
     }
 }
 
-def dbflow_version = "4.0.0-beta5"
+ext {
+    supportLibVersion = '25.2.0'
+    dbflow_version = "4.0.0-beta5"
+}
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.2.0'
-    testCompile 'junit:junit:4.12'
+    compile "com.android.support:appcompat-v7:${supportLibVersion}"
+    compile "com.android.support:design:${supportLibVersion}"
     // RecyclerView support
-    compile 'com.android.support:recyclerview-v7:25.2.0'
+    compile "com.android.support:recyclerview-v7:${supportLibVersion}"
+    // Swipe to refresh
+    compile "com.android.support:support-v4:${supportLibVersion}"
+    testCompile 'junit:junit:4.12'
     // Picasso for remote image loading
-
     compile 'com.squareup.picasso:picasso:2.5.2'
     // Third party lib for Picasso tranformation
     compile 'jp.wasabeef:picasso-transformations:2.1.0'
@@ -51,8 +56,5 @@ dependencies {
 
     // Codepath OAuth handler
     compile 'com.codepath.libraries:android-oauth-handler:1.1.0'
-
-    // Swipe to refresh
-    compile 'com.android.support:support-v4:25.2.0'
 
 }

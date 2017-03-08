@@ -47,9 +47,16 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/ivAvatar"
             android:layout_below="@+id/tvCreatedAt"
-            android:layout_alignParentEnd="true"
             android:text="@{tweet.text}"
             android:autoLink="all"
             android:textColorLink="@color/textColorLink" />
+        <ImageView
+            android:id="@+id/ivMedia"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_below="@+id/tvBody"
+            android:layout_toRightOf="@id/ivAvatar"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/image_loading"/>
     </RelativeLayout>
 </layout>
