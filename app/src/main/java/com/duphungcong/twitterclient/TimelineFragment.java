@@ -38,8 +38,6 @@ import cz.msebera.android.httpclient.Header;
 
 public class TimelineFragment extends Fragment {
 
-    private static final String ARG_PAGE = "ARG_PAGE";
-
     private Context context;
     private MainActivity listener;
 
@@ -57,14 +55,6 @@ public class TimelineFragment extends Fragment {
 
     public TimelineFragment() {
         super();
-    }
-
-    public static TimelineFragment newInstance(int page) {
-        Bundle args = new Bundle();
-        args.putInt(ARG_PAGE, page);
-        TimelineFragment fragment = new TimelineFragment();
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override

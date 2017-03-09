@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.duphungcong.twitterclient.MentionFragment;
 import com.duphungcong.twitterclient.TimelineFragment;
 
 /**
@@ -12,8 +13,8 @@ import com.duphungcong.twitterclient.TimelineFragment;
  */
 
 public class TabsAdapter extends FragmentPagerAdapter {
-    final int PAGE_COUNT = 3;
-    private String tabTitle[] = new String[] { "Tab 1", "Tab 2", "Tab 3" };
+    final int PAGE_COUNT = 2;
+    private String tabTitle[] = new String[] { "HOME", "MENTIONS" };
     private Context context;
     private FragmentManager fragmentManager;
 
@@ -28,9 +29,7 @@ public class TabsAdapter extends FragmentPagerAdapter {
             case 0:
                 return new TimelineFragment();
             case 1:
-                return new TimelineFragment();
-            case 2:
-                return new TimelineFragment();
+                return new MentionFragment();
             default:
                 return null;
         }

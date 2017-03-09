@@ -16,7 +16,6 @@ import com.duphungcong.twitterclient.adapters.TabsAdapter;
 public class MainActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
-    private TimelineFragment timelineFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
