@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.duphungcong.twitterclient.R;
 import com.duphungcong.twitterclient.databinding.TweetItemBinding;
 import com.duphungcong.twitterclient.models.Tweet;
+import com.duphungcong.twitterclient.models.TweetViewModel;
 
 import java.util.List;
 
@@ -36,9 +37,9 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Tweet tweet = tweets.get(position);
+        TweetViewModel vm = new TweetViewModel(tweets.get(position), context);
 
-        holder.binding.setTweet(tweet);
+        holder.binding.setTweetViewModel(vm);
         holder.binding.executePendingBindings();
     }
 

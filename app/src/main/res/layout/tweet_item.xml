@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
-            name="tweet"
-            type="com.duphungcong.twitterclient.models.Tweet" />
+            name="tweetViewModel"
+            type="com.duphungcong.twitterclient.models.TweetViewModel" />
     </data>
     <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
             android:layout_alignParentLeft="true"
             android:layout_margin="@dimen/item_margin"
             android:src="@drawable/image_loading"
-            app:imageUrl="@{tweet.user.profileImageUrl}"/>
+            app:image="@{tweetViewModel.profileImageUrl}"/>
         <TextView
             android:id="@+id/tvName"
             android:layout_width="wrap_content"
@@ -26,28 +26,28 @@
             android:layout_toRightOf="@+id/ivAvatar"
             android:layout_alignParentTop="true"
             android:layout_marginRight="@dimen/item_margin"
-            android:text="@{tweet.user.name}"/>
+            android:text="@{tweetViewModel.name}"/>
         <TextView
             android:id="@+id/tvScreenName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/tvName"
             android:layout_alignParentTop="true"
-            android:text="@{tweet.user.screenName}"/>
+            android:text="@{tweetViewModel.screenName}"/>
         <TextView
             android:id="@+id/tvCreatedAt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/ivAvatar"
             android:layout_below="@+id/tvName"
-            android:text="@{tweet.createdAt}"/>
+            android:text="@{tweetViewModel.createdAt}"/>
         <TextView
             android:id="@+id/tvBody"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/ivAvatar"
             android:layout_below="@+id/tvCreatedAt"
-            android:text="@{tweet.text}"
+            android:text="@{tweetViewModel.body}"
             android:autoLink="all"
             android:textColorLink="@color/textColorLink" />
         <ImageView
