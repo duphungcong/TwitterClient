@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
-            name="user"
-            type="com.duphungcong.twitterclient.models.User" />
+            name="vm"
+            type="com.duphungcong.twitterclient.viewmodels.ComposeTweetViewModel" />
     </data>
     <RelativeLayout  xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/mainToolbar"
-            android:text="Cancel"/>
+            android:text="Cancel" />
         <ImageView
             android:id="@+id/ivAvatar"
             android:layout_width="64dp"
@@ -28,21 +28,21 @@
             android:layout_alignParentRight="true"
             android:layout_margin="@dimen/item_margin"
             android:src="@drawable/image_loading"
-            app:imageUrl="@{user.profileImageUrl}"/>
+            app:image="@{vm.profileImageUrl}"/>
         <TextView
             android:id="@+id/tvName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/btnCancel"
             android:layout_toLeftOf="@+id/ivAvatar"
-            android:text="@{user.name}"/>
+            android:text="@{vm.name}"/>
         <TextView
             android:id="@+id/tvScreenName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvName"
             android:layout_toLeftOf="@+id/ivAvatar"
-            android:text='@{"@" + user.screenName}'/>
+            android:text='@{vm.screenName}'/>
         <EditText
             android:id="@+id/etStatus"
             android:layout_width="match_parent"
@@ -59,7 +59,7 @@
             android:text="TWEET"
             android:background="@color/colorPrimary"
             android:layout_margin="@dimen/item_margin"
-            android:textColor="@android:color/white"/>
+            android:textColor="@android:color/white" />
         <TextView
             android:id="@+id/tvRemainCharacter"
             android:layout_width="wrap_content"
@@ -67,6 +67,6 @@
             android:layout_toLeftOf="@+id/btnSubmit"
             android:layout_alignBaseline="@+id/btnSubmit"
             android:layout_marginRight="@dimen/item_margin"
-            android:text="140"/>
+            android:text="140" />
     </RelativeLayout>
 </layout>

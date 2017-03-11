@@ -13,6 +13,8 @@ public class User implements Serializable {
     private String name;
     private String screenName;
     private String profileImageUrl;
+    private int followersCount;
+    private int friendsCount;
 
     public static User fromJson(JSONObject object) {
         User user = new User();
@@ -21,6 +23,8 @@ public class User implements Serializable {
             user.name = object.getString("name");
             user.screenName = object.getString("screen_name");
             user.profileImageUrl = object.getString("profile_image_url");
+            user.followersCount = object.getInt("followers_count");
+            user.friendsCount = object.getInt("friends_count");
         } catch (JSONException e) {
             e.printStackTrace();
             return null;
@@ -51,5 +55,21 @@ public class User implements Serializable {
 
     public void setProfileImageUrl(String profileImageUrl) {
         this.profileImageUrl = profileImageUrl;
+    }
+
+    public int getFollowersCount() {
+        return followersCount;
+    }
+
+    public void setFollowersCount(int followersCount) {
+        this.followersCount = followersCount;
+    }
+
+    public int getFriendsCount() {
+        return friendsCount;
+    }
+
+    public void setFriendsCount(int friendsCount) {
+        this.friendsCount = friendsCount;
     }
 }

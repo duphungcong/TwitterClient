@@ -15,6 +15,7 @@ import com.duphungcong.twitterclient.TwitterApplication;
 import com.duphungcong.twitterclient.TwitterClient;
 import com.duphungcong.twitterclient.databinding.AcitvityComposeBinding;
 import com.duphungcong.twitterclient.models.User;
+import com.duphungcong.twitterclient.viewmodels.ComposeTweetViewModel;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONObject;
@@ -44,7 +45,7 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
     public void bindView() {
         User currentUser = (User) getIntent().getSerializableExtra("currentUser");
 
-        binding.setUser(currentUser);
+        binding.setVm(new ComposeTweetViewModel(currentUser, getApplicationContext()));
         binding.btnCancel.setOnClickListener(this);
         binding.btnSubmit.setOnClickListener(this);
     }
