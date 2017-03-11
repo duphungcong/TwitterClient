@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import com.duphungcong.twitterclient.R;
 import com.duphungcong.twitterclient.databinding.TweetItemBinding;
 import com.duphungcong.twitterclient.models.Tweet;
-import com.duphungcong.twitterclient.models.TweetViewModel;
+import com.duphungcong.twitterclient.viewmodels.TweetViewModel;
 
 import java.util.List;
 

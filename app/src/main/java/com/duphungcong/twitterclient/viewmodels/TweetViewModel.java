@@ -1,4 +1,4 @@
-package com.duphungcong.twitterclient.models;
+package com.duphungcong.twitterclient.viewmodels;
 
 import android.content.Context;
 import android.databinding.BaseObservable;
@@ -7,6 +7,7 @@ import android.text.format.DateUtils;
 import android.widget.ImageView;
 
 import com.duphungcong.twitterclient.R;
+import com.duphungcong.twitterclient.models.Tweet;
 import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;

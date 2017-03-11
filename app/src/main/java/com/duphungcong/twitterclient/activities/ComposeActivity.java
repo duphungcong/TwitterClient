@@ -1,4 +1,4 @@
-package com.duphungcong.twitterclient;
+package com.duphungcong.twitterclient.activities;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -10,6 +10,9 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Toast;
 
+import com.duphungcong.twitterclient.R;
+import com.duphungcong.twitterclient.TwitterApplication;
+import com.duphungcong.twitterclient.TwitterClient;
 import com.duphungcong.twitterclient.databinding.AcitvityComposeBinding;
 import com.duphungcong.twitterclient.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;

@@ -5,20 +5,20 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.duphungcong.twitterclient.MentionFragment;
-import com.duphungcong.twitterclient.TimelineFragment;
+import com.duphungcong.twitterclient.fragments.MentionFragment;
+import com.duphungcong.twitterclient.fragments.TimelineFragment;
 
 /**
  * Created by udcun on 3/8/2017.
  */
 
-public class TabsAdapter extends FragmentPagerAdapter {
+public class TabLayoutAdapter extends FragmentPagerAdapter {
     final int PAGE_COUNT = 2;
     private String tabTitle[] = new String[] { "HOME", "MENTIONS" };
     private Context context;
     private FragmentManager fragmentManager;
 
-    public TabsAdapter(FragmentManager fm, Context context) {
+    public TabLayoutAdapter(FragmentManager fm, Context context) {
         super(fm);
         this.context = context;
     }

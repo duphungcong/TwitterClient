@@ -1,4 +1,4 @@
-package com.duphungcong.twitterclient;
+package com.duphungcong.twitterclient.fragments;
 
 import android.app.Activity;
 import android.content.Context;
@@ -17,6 +17,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.duphungcong.twitterclient.R;
+import com.duphungcong.twitterclient.TwitterApplication;
+import com.duphungcong.twitterclient.TwitterClient;
+import com.duphungcong.twitterclient.activities.ComposeActivity;
+import com.duphungcong.twitterclient.activities.LoginActivity;
+import com.duphungcong.twitterclient.activities.MainActivity;
+import com.duphungcong.twitterclient.activities.ProfileActivity;
 import com.duphungcong.twitterclient.adapters.TweetsAdapter;
 import com.duphungcong.twitterclient.models.Tweet;
 import com.duphungcong.twitterclient.models.User;
@@ -36,7 +43,7 @@ import cz.msebera.android.httpclient.Header;
  * Created by udcun on 3/8/2017.
  */
 
-public class MentionFragment extends Fragment {
+public class TimelineFragment extends Fragment {
 
     private Context context;
     private MainActivity listener;
@@ -51,9 +58,9 @@ public class MentionFragment extends Fragment {
     private String maxId;
     private User currentUser;
 
-    private final int REQUEST_CODE = 98;
+    private final int REQUEST_CODE = 99;
 
-    public MentionFragment() {
+    public TimelineFragment() {
         super();
     }
 
@@ -78,7 +85,7 @@ public class MentionFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_mention, container, false);
+        return inflater.inflate(R.layout.fragment_timeline, container, false);
     }
 
     @Override
@@ -136,6 +143,13 @@ public class MentionFragment extends Fragment {
             case R.id.actionRefresh :
                 refreshTimeline();
                 return true;
+            case R.id.actionProfile:
+                if (currentUser != null) {
+                    Intent intent = new Intent(context, ProfileActivity.class);
+                    intent.putExtra("currentUser", currentUser);
+                    startActivity(intent);
+                }
+                return true;
             case R.id.actionLogout :
                 TwitterClient client = TwitterApplication.getRestClient();
                 client.clearAccessToken();
@@ -149,7 +163,7 @@ public class MentionFragment extends Fragment {
 
     public void fetchTweets() {
         TwitterClient client = TwitterApplication.getRestClient();
-        client.getMentions(maxId, new JsonHttpResponseHandler() {
+        client.getHomeTimeline(maxId, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 super.onSuccess(statusCode, headers, response);

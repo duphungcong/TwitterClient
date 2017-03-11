@@ -14,6 +14,12 @@
         android:icon="@drawable/ic_compose_64x64"
         app:showAsAction="ifRoom|collapseActionView"/>
     <item
+        android:id="@+id/actionProfile"
+        android:orderInCategory="3"
+        android:title="Profile"
+        android:icon="@drawable/ic_user_64x64"
+        app:showAsAction="ifRoom|collapseActionView" />
+    <item
         android:id="@+id/actionLogout"
         android:orderInCategory="99"
         android:title="Logout"
