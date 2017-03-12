@@ -4,7 +4,6 @@ import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.BindingAdapter;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.duphungcong.twitterclient.R;
 import com.duphungcong.twitterclient.models.User;
@@ -47,10 +46,5 @@ public class ComposeTweetViewModel extends BaseObservable {
                 .fit()
                 .placeholder(R.drawable.image_loading)
                 .into(view);
-    }
-
-    @BindingAdapter({"abc"})
-    public static void pushText(TextView view, String text) {
-        view.setText(text);
     }
 }

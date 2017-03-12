@@ -109,6 +109,16 @@ public class TimelineFragment extends Fragment {
 
         rvTweets.addOnScrollListener(scrollListener);
 
+        adapter.setOnItemClickListener(new TweetsAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View v, int position) {
+                User user = tweets.get(position).getUser();
+                Intent intent = new Intent(context, ProfileActivity.class);
+                intent.putExtra("currentUser", user);
+                startActivity(intent);
+            }
+        });
+
         getCurrentUser();
 
         // Lookup the swipe container view

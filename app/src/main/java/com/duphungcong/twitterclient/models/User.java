@@ -10,6 +10,7 @@ import java.io.Serializable;
  */
 
 public class User implements Serializable {
+    private String id;
     private String name;
     private String screenName;
     private String profileImageUrl;
@@ -20,6 +21,7 @@ public class User implements Serializable {
         User user = new User();
 
         try {
+            user.id = object.getString("id_str");
             user.name = object.getString("name");
             user.screenName = object.getString("screen_name");
             user.profileImageUrl = object.getString("profile_image_url");
@@ -71,5 +73,13 @@ public class User implements Serializable {
 
     public void setFriendsCount(int friendsCount) {
         this.friendsCount = friendsCount;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

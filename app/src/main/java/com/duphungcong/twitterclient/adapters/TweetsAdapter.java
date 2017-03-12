@@ -23,6 +23,16 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
     private List<Tweet> tweets;
     private Context context;
 
+    private static OnItemClickListener listener;
+
+    public interface OnItemClickListener {
+        void onItemClick(View v, int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
+
     public TweetsAdapter(Context context, List<Tweet> objects) {
         this.context = context;
         tweets = objects;
@@ -55,10 +65,19 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private TweetItemBinding binding;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(final View itemView) {
             super(itemView);
 
             binding = DataBindingUtil.bind(itemView);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        listener.onItemClick(itemView, getLayoutPosition());
+                    }
+                }
+            });
         }
     }
 }
