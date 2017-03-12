@@ -1,9 +1,11 @@
 package com.duphungcong.twitterclient.models;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Created by udcun on 3/3/2017.
@@ -33,6 +35,28 @@ public class User implements Serializable {
         }
 
         return user;
+    }
+
+    public static ArrayList<User> fromJson(JSONArray array) {
+        JSONObject userJson;
+        ArrayList<User> users = new ArrayList<>();
+
+        for (int i = 0; i < array.length(); i++) {
+            try {
+                userJson = array.getJSONObject(i);
+            } catch (JSONException e) {
+                e.printStackTrace();
+                continue;
+            }
+
+
+            User user = User.fromJson(userJson);
+            if (user != null) {
+                users.add(user);
+            }
+        }
+
+        return users;
     }
 
     public String getName() {
