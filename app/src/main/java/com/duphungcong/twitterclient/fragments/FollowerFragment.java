@@ -9,10 +9,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -20,8 +18,6 @@ import android.widget.Toast;
 import com.duphungcong.twitterclient.R;
 import com.duphungcong.twitterclient.TwitterApplication;
 import com.duphungcong.twitterclient.TwitterClient;
-import com.duphungcong.twitterclient.activities.ComposeActivity;
-import com.duphungcong.twitterclient.activities.LoginActivity;
 import com.duphungcong.twitterclient.activities.ProfileActivity;
 import com.duphungcong.twitterclient.adapters.UsersAdapter;
 import com.duphungcong.twitterclient.models.User;
@@ -60,6 +56,14 @@ public class FollowerFragment extends Fragment {
         super();
     }
 
+    public static FollowerFragment newInstance(User user) {
+        FollowerFragment fragment = new FollowerFragment();
+        Bundle args = new Bundle();
+        args.putSerializable("user", user);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -76,6 +80,8 @@ public class FollowerFragment extends Fragment {
         context = getContext();
         users = new ArrayList<>();
         adapter = new UsersAdapter(context, users);
+
+        currentUser = (User) getArguments().getSerializable("user");
     }
 
     @Nullable
@@ -88,18 +94,18 @@ public class FollowerFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        rvUsers = (RecyclerView) view.findViewById(R.id.rvTweets);
+        rvUsers = (RecyclerView) view.findViewById(R.id.rvUsers);
         rvUsers.setAdapter(adapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         rvUsers.setLayoutManager(layoutManager);
 
-        fetchTweets();
+        fetchUsers();
 
         // Listen scroll with infinite pagination
         scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                fetchTweets();
+                fetchUsers();
             }
         };
 
@@ -115,8 +121,6 @@ public class FollowerFragment extends Fragment {
             }
         });
 
-        getCurrentUser();
-
         // Lookup the swipe container view
         swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
         swipeContainer.setOnRefreshListener(onRefreshListener);
@@ -129,47 +133,9 @@ public class FollowerFragment extends Fragment {
         this.listener = null;
     }
 
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_main, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.actionCompose:
-                if (currentUser!= null) {
-                    Intent intent = new Intent(context, ComposeActivity.class);
-                    intent.putExtra("currentUser", currentUser);
-                    startActivityForResult(intent, REQUEST_CODE);
-                }
-                return true;
-            case R.id.actionRefresh :
-                refreshTimeline();
-                return true;
-            case R.id.actionProfile:
-                if (currentUser != null) {
-                    Intent intent = new Intent(context, ProfileActivity.class);
-                    intent.putExtra("currentUser", currentUser);
-                    startActivity(intent);
-                }
-                return true;
-            case R.id.actionLogout :
-                TwitterClient client = TwitterApplication.getRestClient();
-                client.clearAccessToken();
-                Intent i = new Intent(context, LoginActivity.class);
-                startActivity(i);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    public void fetchTweets() {
+    public void fetchUsers() {
         TwitterClient client = TwitterApplication.getRestClient();
-        client.getFollowers(currentUser.getId(), null, new JsonHttpResponseHandler() {
+        client.getFollowers(currentUser.getId(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 super.onSuccess(statusCode, headers, response);
@@ -177,7 +143,7 @@ public class FollowerFragment extends Fragment {
                 //cursor = ArrayListUlti.getLastItemId(loadedUsers);
                 users.addAll(loadedUsers);
                 adapter.notifyDataSetChanged();
-                //Log.v("MSG", "NUMBER TWEETS:" + adapter.getItemCount());
+                Log.v("MSG", "NUMBER USERS:" + adapter.getItemCount());
             }
 
             @Override
@@ -189,27 +155,11 @@ public class FollowerFragment extends Fragment {
         });
     }
 
-    public void getCurrentUser() {
-        TwitterClient client = TwitterApplication.getRestClient();
-        client.getVerifyCredentials(new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                super.onSuccess(statusCode, headers, response);
-                currentUser = User.fromJson(response);
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                super.onFailure(statusCode, headers, throwable, errorResponse);
-            }
-        });
-    }
-
     public void refreshTimeline() {
         cursor = null;
         users.clear();
         adapter.notifyDataSetChanged();
-        fetchTweets();
+        fetchUsers();
         swipeContainer.setRefreshing(false);
     }
 

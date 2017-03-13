@@ -2,7 +2,6 @@ package com.duphungcong.twitterclient.fragments;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,9 +9,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -20,9 +16,6 @@ import android.widget.Toast;
 import com.duphungcong.twitterclient.R;
 import com.duphungcong.twitterclient.TwitterApplication;
 import com.duphungcong.twitterclient.TwitterClient;
-import com.duphungcong.twitterclient.activities.ComposeActivity;
-import com.duphungcong.twitterclient.activities.LoginActivity;
-import com.duphungcong.twitterclient.activities.MainActivity;
 import com.duphungcong.twitterclient.activities.ProfileActivity;
 import com.duphungcong.twitterclient.adapters.TweetsAdapter;
 import com.duphungcong.twitterclient.models.Tweet;
@@ -40,13 +33,12 @@ import java.util.List;
 import cz.msebera.android.httpclient.Header;
 
 /**
- * Created by udcun on 3/8/2017.
+ * Created by udcun on 3/12/2017.
  */
 
-public class TimelineFragment extends Fragment {
-
+public class UserTimelineFragment extends Fragment {
     private Context context;
-    private MainActivity listener;
+    private ProfileActivity listener;
 
     private RecyclerView rvTweets;
     private TweetsAdapter adapter;
@@ -58,17 +50,23 @@ public class TimelineFragment extends Fragment {
     private String maxId;
     private User currentUser;
 
-    private final int REQUEST_CODE = 99;
-
-    public TimelineFragment() {
+    public UserTimelineFragment() {
         super();
+    }
+
+    public static UserTimelineFragment newInstance(User user) {
+        UserTimelineFragment fragment = new UserTimelineFragment();
+        Bundle args = new Bundle();
+        args.putSerializable("user", user);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof Activity) {
-            this.listener = (MainActivity) context;
+            this.listener = (ProfileActivity) context;
         }
     }
 
@@ -80,6 +78,8 @@ public class TimelineFragment extends Fragment {
         context = getContext();
         tweets = new ArrayList<>();
         adapter = new TweetsAdapter(context, tweets);
+
+        currentUser = (User) getArguments().getSerializable("user");
     }
 
     @Nullable
@@ -109,7 +109,7 @@ public class TimelineFragment extends Fragment {
 
         rvTweets.addOnScrollListener(scrollListener);
 
-        adapter.setOnItemClickListener(new TweetsAdapter.OnItemClickListener() {
+        /*adapter.setOnItemClickListener(new TweetsAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View v, int position) {
                 User user = tweets.get(position).getUser();
@@ -117,9 +117,7 @@ public class TimelineFragment extends Fragment {
                 intent.putExtra("currentUser", user);
                 startActivity(intent);
             }
-        });
-
-        getCurrentUser();
+        });*/
 
         // Lookup the swipe container view
         swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
@@ -133,47 +131,9 @@ public class TimelineFragment extends Fragment {
         this.listener = null;
     }
 
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_main, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.actionCompose:
-                if (currentUser!= null) {
-                    Intent intent = new Intent(context, ComposeActivity.class);
-                    intent.putExtra("currentUser", currentUser);
-                    startActivityForResult(intent, REQUEST_CODE);
-                }
-                return true;
-            case R.id.actionRefresh :
-                refreshTimeline();
-                return true;
-            case R.id.actionProfile:
-                if (currentUser != null) {
-                    Intent intent = new Intent(context, ProfileActivity.class);
-                    intent.putExtra("currentUser", currentUser);
-                    startActivity(intent);
-                }
-                return true;
-            case R.id.actionLogout :
-                TwitterClient client = TwitterApplication.getRestClient();
-                client.clearAccessToken();
-                Intent i = new Intent(context, LoginActivity.class);
-                startActivity(i);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
     public void fetchTweets() {
         TwitterClient client = TwitterApplication.getRestClient();
-        client.getHomeTimeline(maxId, new JsonHttpResponseHandler() {
+        client.getUserTimeline(currentUser.getId(), maxId, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 super.onSuccess(statusCode, headers, response);
@@ -181,6 +141,7 @@ public class TimelineFragment extends Fragment {
                 maxId = ArrayListUlti.getLastItemId(loadedTweets);
                 tweets.addAll(loadedTweets);
                 adapter.notifyDataSetChanged();
+                //Log.v("MSG", "NUMBER TWEETS:" + adapter.getItemCount());
             }
 
             @Override
@@ -188,22 +149,6 @@ public class TimelineFragment extends Fragment {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
                 System.out.println(errorResponse.toString());
                 Toast.makeText(context, errorResponse.toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    public void getCurrentUser() {
-        TwitterClient client = TwitterApplication.getRestClient();
-        client.getVerifyCredentials(new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                super.onSuccess(statusCode, headers, response);
-                currentUser = User.fromJson(response);
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                super.onFailure(statusCode, headers, throwable, errorResponse);
             }
         });
     }

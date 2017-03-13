@@ -70,7 +70,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
 
             binding = DataBindingUtil.bind(itemView);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
+            binding.ivAvatar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (listener != null) {

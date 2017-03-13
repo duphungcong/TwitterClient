@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.duphungcong.twitterclient.R;
-import com.duphungcong.twitterclient.adapters.TabLayoutAdapter;
+import com.duphungcong.twitterclient.adapters.MainTabAdapter;
 
 /**
  * Created by udcun on 3/8/2017.
@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Get the ViewPager and set it's PageAdapter so that it can display item
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        viewPager.setAdapter(new TabLayoutAdapter(getSupportFragmentManager(), MainActivity.this));
+        viewPager.setAdapter(new MainTabAdapter(getSupportFragmentManager(), MainActivity.this));
 
         // Give the TabLayout the ViewPager
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);

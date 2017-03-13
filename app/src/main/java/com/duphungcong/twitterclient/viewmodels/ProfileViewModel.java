@@ -51,10 +51,10 @@ public class ProfileViewModel extends BaseObservable {
     }
 
     public String getFollowers() {
-        return mUser.getFollowersCount() + "Followers";
+        return mUser.getFollowersCount() + " Followers";
     }
 
     public String getFollwing() {
-        return mUser.getFriendsCount() + "Following";
+        return mUser.getFriendsCount() + " Following";
     }
 }

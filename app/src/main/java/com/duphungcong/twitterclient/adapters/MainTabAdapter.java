@@ -12,14 +12,15 @@ import com.duphungcong.twitterclient.fragments.TimelineFragment;
  * Created by udcun on 3/8/2017.
  */
 
-public class TabLayoutAdapter extends FragmentPagerAdapter {
+public class MainTabAdapter extends FragmentPagerAdapter {
     final int PAGE_COUNT = 2;
     private String tabTitle[] = new String[] { "HOME", "MENTIONS" };
     private Context context;
-    private FragmentManager fragmentManager;
+    private FragmentManager manager;
 
-    public TabLayoutAdapter(FragmentManager fm, Context context) {
+    public MainTabAdapter(FragmentManager fm, Context context) {
         super(fm);
+        this.manager = fm;
         this.context = context;
     }
 

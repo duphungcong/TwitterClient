@@ -1,5 +1,6 @@
 package com.duphungcong.twitterclient.activities;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -59,8 +60,8 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.btnSubmit :
                 if (remainCharacter >= 0) {
                     submitTweet(binding.etStatus.getText().toString());
-                    setResult(RESULT_OK);
-                    finish();
+                    Intent intent = new Intent(this, MainActivity.class);
+                    startActivity(intent);
                 } else {
                     Toast.makeText(v.getContext(), "Exceed number of words allowed", Toast.LENGTH_SHORT).show();
                 }
